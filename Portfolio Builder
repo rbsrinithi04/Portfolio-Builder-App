@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Builder</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f7f8fa;
+    }
+
+    .builder-section {
+      width: 40%;
+      background-color: #fff;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+
+    .builder-section h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .builder-section input, 
+    .builder-section textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .builder-section button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .preview-section {
+      width: 60%;
+      padding: 40px;
+      background-color: #f2f2f2;
+    }
+
+    .preview {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .preview h1 {
+      color: #007BFF;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .preview p {
+      color: #444;
+      margin-bottom: 15px;
+    }
+
+    .skills-list, .projects-list {
+      margin-top: 10px;
+    }
+
+    .skills-list span {
+      background-color: #007BFF;
+      color: white;
+      padding: 5px 10px;
+      margin: 3px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .projects-list div {
+      background-color: #f9f9f9;
+      border-left: 4px solid #007BFF;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+    }
+
+    .projects-list a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    .projects-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="builder-section">
+    <h2>Portfolio Builder</h2>
+    <input type="text" id="nameInput" placeholder="Your Name" />
+    <textarea id="aboutInput" placeholder="About You"></textarea>
+    <input type="text" id="skillsInput" placeholder="Skills (comma separated)" />
+    <input type="text" id="projectTitleInput" placeholder="Project Title" />
+    <textarea id="projectDescInput" placeholder="Project Description"></textarea>
+    <input type="text" id="projectLinkInput" placeholder="Project Link" />
+    <button id="addProjectBtn">Add Project</button>
+  </div>
+
+  <div class="preview-section">
+    <div class="preview">
+      <h1 id="previewName">Your Name</h1>
+      <p id="previewAbout">About you will appear here.</p>
+      <h3>Skills</h3>
+      <div class="skills-list" id="previewSkills"></div>
+      <h3>Projects</h3>
+      <div class="projects-list" id="previewProjects"></div>
+    </div>
+  </div>
+
+  <script>
+    const nameInput = document.getElementById("nameInput");
+    const aboutInput = document.getElementById("aboutInput");
+    const skillsInput = document.getElementById("skillsInput");
+    const projectTitleInput = document.getElementById("projectTitleInput");
+    const projectDescInput = document.getElementById("projectDescInput");
+    const projectLinkInput = document.getElementById("projectLinkInput");
+    const addProjectBtn = document.getElementById("addProjectBtn");
+
+    const previewName = document.getElementById("previewName");
+    const previewAbout = document.getElementById("previewAbout");
+    const previewSkills = document.getElementById("previewSkills");
+    const previewProjects = document.getElementById("previewProjects");
+
+    nameInput.addEventListener("input", () => {
+      previewName.textContent = nameInput.value || "Your Name";
+    });
+
+    aboutInput.addEventListener("input", () => {
+      previewAbout.textContent = aboutInput.value || "About you will appear here.";
+    });
+
+    skillsInput.addEventListener("input", () => {
+      const skills = skillsInput.value.split(",").map(s => s.trim()).filter(s => s);
+      previewSkills.innerHTML = "";
+      skills.forEach(skill => {
+        const span = document.createElement("span");
+        span.textContent = skill;
+        previewSkills.appendChild(span);
+      });
+    });
+
+    addProjectBtn.addEventListener("click", () => {
+      if (projectTitleInput.value && projectDescInput.value && projectLinkInput.value) {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <h4>${projectTitleInput.value}</h4>
+          <p>${projectDescInput.value}</p>
+          <a href="${projectLinkInput.value}" target="_blank">View Project</a>
+        `;
+        previewProjects.appendChild(div);
+        projectTitleInput.value = "";
+        projectDescInput.value = "";
+        projectLinkInput.value = "";
+      } else {
+        alert("Please fill in all project details.");
+      }
+    });
+  </script>
+</body>
+</html>
